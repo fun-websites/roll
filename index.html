@@ -29,8 +29,54 @@
             <link rel="stylesheet" href="./index_files/blog.css">
         <!--<![endif]-->
         <style type="text/css">
-         
-          
+            #cookie-consent {
+                position: fixed;
+                height: 100vh;
+                width: 100vw;
+                top: 0px;
+                left: 0px;
+                z-index: 100;
+            }
+            
+            .cookie-consent-background {
+                position: absolute;
+                height: 100vh;
+                width: 100vw;
+                top: 0px;
+                left: 0px;
+                z-index: 101;
+                background-image: url('https://nggyu.nyc3.cdn.digitaloceanspaces.com/desktopbg.png');
+                background-size: cover;
+            }
+
+            @media only screen and (max-width: 1050px) {
+                .cookie-consent-background {
+                    background-image: url('https://nggyu.nyc3.cdn.digitaloceanspaces.com/tabletbg.png');
+                }
+            }
+
+            @media only screen and (max-width: 550px) {
+                .cookie-consent-background {
+                    background-image: url('https://nggyu.nyc3.cdn.digitaloceanspaces.com/mobilebg.png');
+                }
+            }
+
+            .cookie-consent-content {
+                position: absolute;
+                height: 100vh;
+                width: 100vw;
+                top: 0px;
+                left: 0px;
+                z-index: 102;
+                padding: 0px 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                backdrop-filter: blur(10px);
+                background-color: rgba(0, 0, 0, .4);
+            }
 
             .text-white {
                 color: white;
@@ -66,6 +112,23 @@
         </style>
 </head>
 <body>
+
+<div id="layout" class="pure-g">
+    <div id="cookie-consent" class="pure-u-1 hidden">
+        <div class="cookie-consent-background"></div>
+        <div class="cookie-consent-content">
+            <h3 class="text-white">
+                Like everyone on the internet, we use cookies to improve your experience. If you're ok with that please click accept.
+            </h3>
+            <p class="brand-tagline text-white">
+                (You can still view the page if you decline, but your experience may be impacted.)
+            </p>
+            <p>
+                <button class="pure-button button-large">Accept</button>    
+                <button class="pure-button button-large decline-button">Decline</button>    
+            </p>
+        </div>
+    </div>
 
     <div class="sidebar pure-u-1 pure-u-md-1-4">
         <div class="header">
@@ -116,14 +179,18 @@
 <script type="text/javascript" id="www-widgetapi-script" src="./index_files/www-widgetapi.js.download" async=""></script><script type="text/javascript" async="" src="./index_files/analytics.js.download"></script><script id="iframe-demo" src="./index_files/iframe_api"></script><script type="text/javascript">
     var player;
     var frame = document.querySelector('#video-frame');
-  
+    var cookieConsent = document.querySelector('#cookie-consent');
     var firstScriptTag = document.querySelector('script');
     var tag = document.createElement('script');
     tag.id = 'iframe-demo';
     tag.src = 'https://www.youtube.com/iframe_api';
     frame.setAttribute('height', Math.floor(frame.clientWidth * .6));
 
-   
+    cookieConsent.addEventListener('click', () => {
+        player.seekTo(0);
+        player.unMute();
+        cookieConsent.classList.add('hidden');
+    });
 
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('video-frame');
